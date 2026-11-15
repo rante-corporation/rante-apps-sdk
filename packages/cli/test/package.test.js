@@ -164,7 +164,10 @@ test('pack: refuses external apps, missing entry points and missing manifests', 
   assert.deepEqual(codes(packFolder(external)), ['manifest_invalid']);
   const noEntry = writeTree(tempDir(t), { 'manifest.json': JSON.stringify(bundleManifest({ icon: undefined })), 'app.js': '1' });
   assert.deepEqual(codes(packFolder(noEntry)), ['entry_point_missing']);
-  assert.deepEqual(codes(packFolder(tempDir(t))), ['manifest_missing']);
+  const missing = packFolder(tempDir(t));
+  assert.deepEqual(codes(missing), ['manifest_missing']);
+  // A build that empties its output folder deletes a manifest.json written there; the message says where it goes instead.
+  assert.match(missing.errors[0].message, /such as public\//);
 });
 
 test('pack: refuses symbolic links', (t) => {

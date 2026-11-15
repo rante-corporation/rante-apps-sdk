@@ -39,6 +39,7 @@ test('init writes a valid manifest and refuses to overwrite it', (t) => {
   const dir = tempDir(t);
   const r = run(['init', 'app', '--id', APP_ID, '--name', 'My App', '--permission', 'user.read'], dir);
   assert.equal(r.code, 0, r.stderr);
+  assert.match(r.stdout, /keep it in a folder they copy, such as public\//);
   const manifest = JSON.parse(fs.readFileSync(path.join(dir, 'app', 'manifest.json'), 'utf8'));
   assert.equal(manifest.hosting, 'bundle');
   assert.equal(manifest.entryPoint, 'index.html');

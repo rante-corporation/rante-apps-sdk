@@ -22,10 +22,14 @@ with the server SDK for its language: [Node.js](https://github.com/rante-corpora
 **Bundle (Rante hosts it).** Build your app into static files, add a `manifest.json`, and pack the folder:
 
 ```bash
-npx @rante/cli init dist --id <your-app-id> --name "Expense Tracker"
-npm run build                       # your build writes index.html, JS and CSS into dist/
+npx @rante/cli init public --id <your-app-id> --name "Expense Tracker"
+npm run build                       # your build writes index.html, JS and CSS into dist/ and copies public/ there
 npx @rante/cli pack dist            # writes expense-tracker-1.0.0.rante
 ```
+
+`manifest.json` goes in a folder your build copies into its output, such as Vite's `public/`: most builds empty
+`dist/` first, so a manifest written there would be deleted. An app with no build step keeps it next to its
+`index.html`.
 
 Upload the `.rante` file in the Rante Portal (Developers > Apps > Hosting) and choose the Rante Storage account it
 goes into. Rante checks the package, stores its files under `apps/{id}/{version}/`, and serves each app from its own

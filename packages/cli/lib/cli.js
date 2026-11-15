@@ -33,7 +33,8 @@ Docs: https://github.com/rante-corporation/rante-apps-sdk
 `,
   init: `Usage: rante init [folder] --id <app-id> --name <name> [options]
 
-Creates manifest.json in the folder (default: the current folder).
+Creates manifest.json in the folder (default: the current folder). Use a folder your build copies into its output,
+such as public/, or the app's own folder if it has no build step.
 
 Options:
   --id <guid>              Your app's Application (client) ID (Rante Portal > Developers > Apps)
@@ -179,7 +180,8 @@ function cmdInit(io, positional, flags) {
   fs.writeFileSync(target, JSON.stringify(manifest, null, 2) + '\n');
   io.stdout.write(`Created ${target}\n`);
   if (hosting === 'bundle') {
-    io.stdout.write(`Next: build your app into ${folder} (the entry point is ${entry}), then run: rante pack ${positional[0] || '.'}\n`);
+    io.stdout.write(`Next: build your app so that its output folder holds this manifest.json next to ${entry}, then run: rante pack <output folder>\n`);
+    io.stdout.write('(Builds that empty their output folder, like Vite and Create React App, delete a manifest.json written there: keep it in a folder they copy, such as public/.)\n');
   } else {
     io.stdout.write('Next: register this manifest.json for your app in the Rante Portal (Developers > Apps > Hosting).\n');
   }

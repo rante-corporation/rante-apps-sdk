@@ -18,8 +18,14 @@ Writes `manifest.json`. Options: `--hosting bundle|external` (default `bundle`),
 `--permission <scope>` (repeat it), `--force`.
 
 ```bash
-npx @rante/cli init dist --id 3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c --name "Expense Tracker" --permission user.read
+npx @rante/cli init public --id 3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c --name "Expense Tracker" --permission user.read
 ```
+
+Write it into a folder your build copies into its output next to the entry point (Vite and Create React App copy
+`public/` into `dist/` and `build/`), not into the output folder itself: those builds empty it first. An app without
+a build step keeps `manifest.json` in its own folder. A Create React App project already has a web app manifest at
+`public/manifest.json`: rename that one (for example to `site.webmanifest`, and update the `<link rel="manifest">` in
+`index.html`), because the `manifest.json` at a package's root is Rante's.
 
 ### `rante pack [folder] [--out <file>] [--force] [--json]`
 

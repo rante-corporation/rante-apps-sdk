@@ -360,7 +360,7 @@ function packFolder(folder, options) {
   try {
     manifestBytes = fs.readFileSync(path.join(root, MANIFEST_NAME));
   } catch (err) {
-    return { ok: false, errors: [issue('manifest_missing', `There is no manifest.json in "${folder}". Run "rante init" to create one.`)], warnings };
+    return { ok: false, errors: [issue('manifest_missing', `There is no manifest.json in "${folder}". Create one with "rante init"; if a build writes "${folder}", keep manifest.json in a folder the build copies into it (such as public/).`)], warnings };
   }
   if (manifestBytes.length > limits.maxManifestBytes) {
     return { ok: false, errors: [issue('manifest_too_large', `manifest.json is larger than ${limits.maxManifestBytes} bytes.`, MANIFEST_NAME)], warnings };

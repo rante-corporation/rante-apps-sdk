@@ -4,10 +4,11 @@ Every Rante app has a `manifest.json`. A **bundle** app (Rante hosts its static 
 `.rante` package. An **external** app (you host it on your own HTTPS server) registers it on its own in the Rante
 Portal under **Developers > Apps > Hosting**.
 
-Create one with the CLI:
+Create one with the CLI, in a folder your build copies into its output (such as Vite's `public/`; a build that empties
+`dist/` would delete a manifest written there):
 
 ```bash
-npx @rante/cli init --id <your-app-id> --name "Expense Tracker"
+npx @rante/cli init public --id <your-app-id> --name "Expense Tracker"
 ```
 
 ## Bundle app
