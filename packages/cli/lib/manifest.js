@@ -90,11 +90,17 @@ function httpsUrlProblem(value, label, options) {
   if (url.username || url.password) return `${label} must not contain a user name or password.`;
   if (url.hash) return `${label} must not contain a #fragment.`;
   const host = url.hostname.toLowerCase();
+  // "localhost." and "intranet." are the same hosts as "localhost" and "intranet".
+  if (host.endsWith('.')) return `${label} has a host name that ends with a dot (${host}).`;
   if (!(options && options.allowLocal)) {
     if (host === 'localhost' || host.endsWith('.localhost') || isIpLiteral(host)) {
       return `${label} must use a public host name, not ${host}.`;
     }
     if (host.indexOf('.') < 0) return `${label} must use a fully qualified host name.`;
+    // Every top-level domain starts with a letter; a numeric last part is an IP address in some URL parsers.
+    if (!/^[a-z]/.test(host.slice(host.lastIndexOf('.') + 1))) {
+      return `${label} must use a host name whose last part starts with a letter, not ${host}.`;
+    }
   }
   return null;
 }
@@ -163,8 +169,9 @@ function validateManifest(manifest) {
       }
       const p = textProblem(author.name, '"author.name"', 100, { required: true, trimmed: true });
       if (p) add('author.name', p);
-      if (has(author, 'email') && (typeof author.email !== 'string' || author.email.length > 254 || !EMAIL.test(author.email))) {
-        add('author.email', '"author.email" must be an email address.');
+      if (has(author, 'email') && (typeof author.email !== 'string' || author.email.length > 254 ||
+          hasControl(author.email) || hasInvisible(author.email) || !EMAIL.test(author.email))) {
+        add('author.email', '"author.email" must be an email address (no control or invisible formatting characters).');
       }
       if (has(author, 'url')) {
         const u = httpsUrlProblem(author.url, '"author.url"');

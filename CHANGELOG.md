@@ -24,5 +24,7 @@ My apps frame) is being built to this design; until it is live, the SDK has no h
 - The package checks Rante's servers run: ZIP signature and 50 MiB limit, manifest.json validated in memory (strict
   JSON, no duplicate fields), entry point and icon present, an allow-list of file types, executable signatures,
   zip-slip path rules, duplicates, links, overlapping entries, size and ratio limits, CRC-32.
+- Manifest URLs (an external `entryPoint` or `icon`, `author.url`) need a public host name: no `localhost`, IP
+  address, dot at the end or numeric last part. `author.email` refuses control and invisible formatting characters.
 - Reproducible packages: the same folder gives the same bytes.
 - `.ranteignore` support.

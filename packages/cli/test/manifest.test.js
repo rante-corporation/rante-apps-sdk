@@ -67,16 +67,31 @@ test('a bundle entry point is an HTML file inside the package', () => {
 
 test('an external entry point is a public https URL', () => {
   for (const e of ['http://app.example.com', 'https://localhost:3000', 'https://127.0.0.1/', 'https://[::1]/',
-    'https://user:pw@app.example.com', 'https://app.example.com/#x', 'https://intranet/', 'app.example.com', 'https://a b.com']) {
+    'https://user:pw@app.example.com', 'https://app.example.com/#x', 'https://intranet/', 'app.example.com', 'https://a b.com',
+    'https://localhost./', 'https://intranet./', 'https://app.example.com./', 'https://localhost%2E/', 'https://127.1/',
+    'https://0x7f.1/', 'https://app.example.123/']) {
     assert.deepEqual(fields(validateManifest(externalManifest({ entryPoint: e }))), ['entryPoint'], e);
   }
   assert.deepEqual(validateManifest(externalManifest({ entryPoint: 'https://app.example.com:8443/rante?tenant=1' })), []);
+  assert.deepEqual(validateManifest(externalManifest({ entryPoint: 'https://app.xn--zckzah/' })), []);
 });
 
 test('icons: a file in the package for bundles, an https URL for external apps', () => {
   assert.deepEqual(fields(validateManifest(bundleManifest({ icon: 'icon.gif' }))), ['icon']);
   assert.deepEqual(fields(validateManifest(bundleManifest({ icon: 'https://cdn.example.com/i.png' }))), ['icon']);
   assert.deepEqual(fields(validateManifest(externalManifest({ icon: 'icon.png' }))), ['icon']);
+  assert.deepEqual(fields(validateManifest(externalManifest({ icon: 'https://localhost./icon.png' }))), ['icon']);
+});
+
+test('author: an email address without control or invisible characters, and a public https URL', () => {
+  const withAuthor = (author) => bundleManifest({ author: Object.assign({ name: 'A' }, author) });
+  assert.deepEqual(validateManifest(withAuthor({ email: 'apps@contoso.example' })), []);
+  assert.deepEqual(validateManifest(withAuthor({ email: 'j' + String.fromCharCode(0xf6) + 'rg@contoso.example' })), []);
+  for (const c of [0x01, 0x1b, 0x85, 0x9f, 0x200b, 0x202e, 0xfeff]) {
+    const email = 'apps' + String.fromCharCode(c) + '@contoso.example';
+    assert.deepEqual(fields(validateManifest(withAuthor({ email }))), ['author.email'], c.toString(16));
+  }
+  assert.deepEqual(fields(validateManifest(withAuthor({ url: 'https://contoso.example./' }))), ['author.url']);
 });
 
 test('permissions must be known scopes, listed once', () => {

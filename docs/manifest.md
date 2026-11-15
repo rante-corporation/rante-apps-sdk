@@ -54,10 +54,10 @@ npx @rante/cli init --id <your-app-id> --name "Expense Tracker"
 | `name` | yes | 1 to 60 characters, no spaces at the start or end, no control or invisible formatting characters. |
 | `version` | yes | A [semantic version](https://semver.org): `MAJOR.MINOR.PATCH`, optionally `-prerelease` (for example `1.2.0-beta.1`). No `+build` part. Every upload or registration needs a version Rante has not seen for the app; a version is never replaced. |
 | `description` | no | Up to 500 characters; line breaks allowed. |
-| `author` | no | `{ "name", "email"?, "url"? }`. `name` up to 100 characters, `url` an `https://` address. |
+| `author` | no | `{ "name", "email"?, "url"? }`. `name` up to 100 characters; `email` an email address without control or invisible formatting characters; `url` an `https://` address with a public host name (the rules of an external `entryPoint`). |
 | `hosting` | yes | `"bundle"` or `"external"`. |
-| `entryPoint` | yes | **bundle:** the `.html` or `.htm` file inside the package that Rante opens, for example `index.html` or `app/index.html`. It follows the [path rules](package-format.md#paths). **external:** the `https://` URL Rante loads in the frame. It needs a public host name (no `localhost`, no IP address), no user name or password and no `#fragment`. |
-| `icon` | no | **bundle:** a `.png`, `.svg`, `.jpg`, `.jpeg` or `.webp` file inside the package. **external:** an `https://` URL. Without one, Rante uses the store listing's icon. |
+| `entryPoint` | yes | **bundle:** the `.html` or `.htm` file inside the package that Rante opens, for example `index.html` or `app/index.html`. It follows the [path rules](package-format.md#paths). **external:** the `https://` URL Rante loads in the frame. It needs a public host name (no `localhost`, no IP address, no dot at the end, and a last part that starts with a letter, such as `.com`), no user name or password and no `#fragment`. |
+| `icon` | no | **bundle:** a `.png`, `.svg`, `.jpg`, `.jpeg` or `.webp` file inside the package. **external:** an `https://` URL with the rules of an external `entryPoint`. Without one, Rante uses the store listing's icon. |
 | `permissions` | no | The scopes below, each at most once. Default: none. |
 | `connect` | no | **Bundle apps only.** Up to 20 origins the app may call with `fetch`, `XMLHttpRequest`, `EventSource` or WebSockets: `https://host[:port]` or `wss://host[:port]`, lowercase, no path. `https://*.example.com` allows the subdomains of `example.com` (a wildcard needs at least two labels after `*.`). Rante puts these in the app's `Content-Security-Policy: connect-src`; anything else is blocked by the browser. |
 
