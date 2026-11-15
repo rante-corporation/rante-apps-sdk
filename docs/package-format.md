@@ -102,8 +102,9 @@ docs/internal/ # a folder (trailing slash)
 ## Reproducible packages
 
 `rante pack` writes `manifest.json` first, then every other file sorted by its path's bytes, with fixed timestamps
-(1980-01-01 00:00) and no extra fields. Packing the same folder with the same Node.js version gives the same bytes and
-the same SHA-256, so you can check that the package you uploaded is the one you built:
+(1980-01-01 00:00) and no extra fields. Packing the same folder gives the same bytes and the same SHA-256: this
+repository's CI packs `examples/hello-bundle` to the same hash on Node.js 20, 22 and 24, on Linux and Windows. So you
+can check that the package you uploaded is the one you built:
 
 ```bash
 npx @rante/cli inspect expense-tracker-1.0.0.rante

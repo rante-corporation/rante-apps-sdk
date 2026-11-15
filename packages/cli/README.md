@@ -26,13 +26,15 @@ npx @rante/cli init dist --id 3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c --name "Expen
 Checks the folder and writes `{name}-{version}.rante`. Hidden files, `__MACOSX`, `Thumbs.db`, `desktop.ini` and the
 paths in `.ranteignore` are left out. The output is reproducible: the same folder gives the same bytes.
 
+Packing this repository's [hello-bundle example](../../examples/hello-bundle):
+
 ```
-$ npx @rante/cli pack dist
-Packed /work/expense-tracker-1.0.0.rante
-  app       Expense Tracker 1.0.0 (3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c)
-  files     9 (412,881 bytes unpacked)
-  package   131,442 bytes
-  sha256    6f0c...
+$ npx @rante/cli pack examples/hello-bundle
+Packed /work/hello-rante-1.0.0.rante
+  app       Hello Rante 1.0.0 (3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c)
+  files     6 (23,836 bytes unpacked)
+  package   8,031 bytes
+  sha256    abf3fcdaf64190163f032d19b048c570e40aeeabb01377225b3581a6bb068623
 ```
 
 ### `rante validate <path> [--json]`
