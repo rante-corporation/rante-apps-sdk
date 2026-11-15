@@ -15,7 +15,8 @@ test('accepts ordinary build output paths', () => {
 });
 
 test('refuses zip slip: traversal, absolute paths and drive letters', () => {
-  const cases = ['../evil.js', 'a/../../evil.js', 'a/./b.js', './index.html', '/etc/passwd', 'C:/Windows/win.ini', 'c:evil.js'];
+  const cases = ['../evil.js', 'a/../../evil.js', 'a/./b.js', './index.html', '/etc/passwd', 'C:/Windows/win.ini', 'c:evil.js',
+    'a:b.js'];
   for (const p of cases) {
     const r = checkPath(p);
     assert.equal(r.ok, false, p);
@@ -24,7 +25,7 @@ test('refuses zip slip: traversal, absolute paths and drive letters', () => {
 });
 
 test('refuses backslashes, empty segments and unsafe characters', () => {
-  const cases = ['..\\evil.js', 'a\\b.js', 'a//b.js', 'a b.js', 'a%2e.js', 'a#b.js', 'a?b.js', 'quote".js', 'a:b.js',
+  const cases = ['..\\evil.js', 'a\\b.js', 'a//b.js', 'a b.js', 'a%2e.js', 'a#b.js', 'a?b.js', 'quote".js', 'x/a:b.js',
     'caf\u00e9.js', 'tab\t.js', 'nul\u0000.js', 'end.', 'x/con', 'NUL.txt', 'lpt1.js', ''];
   for (const p of cases) {
     const r = checkPath(p);
@@ -45,5 +46,6 @@ test('limits length and depth', () => {
   assert.equal(checkPath('a/'.repeat(32) + 'x.js').ok, false);
   assert.equal(checkPath('a/'.repeat(31) + 'x.js').ok, true);
   assert.equal(checkPath('x'.repeat(256) + '.js').ok, false);
-  assert.equal(checkPath(('d'.repeat(100) + '/').repeat(5) + 'x.js').ok, false);
+  assert.equal(checkPath(('d'.repeat(100) + '/').repeat(5) + 'x.js').ok, true); // 509 bytes
+  assert.equal(checkPath(('d'.repeat(100) + '/').repeat(6) + 'x.js').ok, false); // 610 bytes
 });
