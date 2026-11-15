@@ -1,0 +1,43 @@
+{
+  "name": "@rante/sdk",
+  "version": "0.1.0",
+  "description": "JavaScript SDK for Rante apps: talk to the Rante host from your app's sandboxed iframe (user, tenant, access tokens, notifications) over postMessage.",
+  "license": "MIT",
+  "author": "Rante Corporation",
+  "homepage": "https://github.com/rante-corporation/rante-apps-sdk/tree/main/packages/sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rante-corporation/rante-apps-sdk.git",
+    "directory": "packages/sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/rante-corporation/rante-apps-sdk/issues"
+  },
+  "keywords": ["rante", "rante-apps", "sdk", "postMessage", "iframe", "embedded-apps"],
+  "main": "rante-sdk.js",
+  "types": "rante-sdk.d.ts",
+  "exports": {
+    ".": {
+      "types": "./rante-sdk.d.ts",
+      "default": "./rante-sdk.js"
+    },
+    "./host": {
+      "types": "./rante-host.d.ts",
+      "default": "./rante-host.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "rante-sdk.js",
+    "rante-sdk.d.ts",
+    "rante-host.js",
+    "rante-host.d.ts",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/sdk.test.js"
+  }
+}

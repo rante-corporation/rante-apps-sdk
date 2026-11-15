@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Node ${{ matrix.node }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      # No dependencies to install: both packages use only Node's standard library.
+      - name: Test
+        run: npm test
+      - name: Pack and check the example app
+        run: |
+          node packages/cli/bin/rante.js pack examples/hello-bundle --out hello-rante.rante
+          node packages/cli/bin/rante.js validate hello-rante.rante
+          node packages/cli/bin/rante.js validate examples/hello-external/manifest.json

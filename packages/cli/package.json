@@ -1,0 +1,33 @@
+{
+  "name": "@rante/cli",
+  "version": "0.1.0",
+  "description": "Command line for Rante apps: create manifest.json, check apps, and pack static apps into .rante packages.",
+  "license": "MIT",
+  "author": "Rante Corporation",
+  "homepage": "https://github.com/rante-corporation/rante-apps-sdk/tree/main/packages/cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rante-corporation/rante-apps-sdk.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/rante-corporation/rante-apps-sdk/issues"
+  },
+  "keywords": ["rante", "rante-apps", "cli", "manifest", "package", "zip"],
+  "bin": {
+    "rante": "bin/rante.js"
+  },
+  "main": "index.js",
+  "files": [
+    "bin/",
+    "lib/",
+    "index.js",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/crc32.test.js test/json.test.js test/paths.test.js test/manifest.test.js test/zip.test.js test/package.test.js test/cli.test.js"
+  }
+}

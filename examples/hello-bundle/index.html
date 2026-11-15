@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello Rante</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Bundle apps load scripts only from their own package: no inline scripts, no CDNs. -->
+  <script src="rante-sdk.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <img src="icon.svg" alt="" width="48" height="48">
+    <h1 id="greeting">Connecting to Rante...</h1>
+    <p id="tenant"></p>
+    <button id="notify" type="button" hidden>Say hello in Rante</button>
+    <p id="error" role="alert" hidden></p>
+  </main>
+</body>
+</html>

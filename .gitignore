@@ -1,0 +1,6 @@
+node_modules/
+*.rante
+*.tgz
+coverage/
+.DS_Store
+Thumbs.db

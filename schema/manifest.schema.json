@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/rante-corporation/rante-apps-sdk/main/schema/manifest.schema.json",
+  "title": "Rante app manifest",
+  "description": "manifest.json of a Rante app (manifestVersion 1). The rante CLI and Rante's servers apply these rules and a few more (see docs/manifest.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifestVersion", "id", "name", "version", "hosting", "entryPoint"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "manifestVersion": { "const": 1, "description": "The manifest format version. Always 1." },
+    "id": {
+      "type": "string",
+      "description": "Your app's Application (client) ID from the Rante Portal (Developers > Apps).",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+      "not": { "pattern": "^0{8}-0{4}-0{4}-0{4}-0{12}$" }
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 60, "description": "The app's name as people see it." },
+    "version": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "A semantic version: MAJOR.MINOR.PATCH with an optional -prerelease. Each upload needs a new version.",
+      "pattern": "^(0|[1-9]\\d{0,8})\\.(0|[1-9]\\d{0,8})\\.(0|[1-9]\\d{0,8})(?:-((?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[A-Za-z-][0-9A-Za-z-]*))*))?$"
+    },
+    "description": { "type": "string", "maxLength": 500 },
+    "author": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 254 },
+        "url": { "type": "string", "pattern": "^https://" }
+      }
+    },
+    "hosting": {
+      "enum": ["bundle", "external"],
+      "description": "bundle: Rante hosts your static files (a .rante package). external: you host the app at an HTTPS URL."
+    },
+    "entryPoint": {
+      "type": "string",
+      "description": "bundle: the HTML file inside the package (for example index.html). external: the https:// URL Rante loads."
+    },
+    "icon": {
+      "type": "string",
+      "description": "bundle: a .png, .svg, .jpg, .jpeg or .webp file inside the package. external: an https:// URL."
+    },
+    "permissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "What the app may ask the Rante host for. The tenant's admin approves these when installing the app.",
+      "items": {
+        "enum": ["user.read", "user.email", "tenant.read", "auth.token", "notifications", "navigation", "clipboard.write"]
+      }
+    },
+    "connect": {
+      "type": "array",
+      "maxItems": 20,
+      "uniqueItems": true,
+      "description": "Bundle apps only: the origins the app may call with fetch, XHR or WebSockets (its Content-Security-Policy connect-src).",
+      "items": {
+        "type": "string",
+        "pattern": "^(https|wss)://(\\*\\.)?((?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z](?:[a-z0-9-]{0,61}[a-z0-9])?)(?::(\\d{1,5}))?$"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "hosting": { "const": "bundle" } }, "required": ["hosting"] },
+      "then": {
+        "properties": {
+          "entryPoint": { "pattern": "^(?!/)(?!.*(^|/)\\.\\.?(/|$))[A-Za-z0-9._~@+=,()!/-]+\\.html?$" },
+          "icon": { "pattern": "^(?!/)[A-Za-z0-9._~@+=,()!/-]+\\.(png|svg|jpe?g|webp)$" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "hosting": { "const": "external" } }, "required": ["hosting"] },
+      "then": {
+        "properties": {
+          "entryPoint": { "pattern": "^https://[^\\s#]+$" },
+          "icon": { "pattern": "^https://[^\\s#]+$" }
+        },
+        "not": { "required": ["connect"] }
+      }
+    }
+  ]
+}

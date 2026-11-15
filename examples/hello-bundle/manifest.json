@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rante-corporation/rante-apps-sdk/main/schema/manifest.schema.json",
+  "manifestVersion": 1,
+  "id": "3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c",
+  "name": "Hello Rante",
+  "version": "1.0.0",
+  "description": "A minimal bundle app: greets the signed-in person and follows Rante's theme.",
+  "author": { "name": "Rante Corporation", "url": "https://github.com/rante-corporation/rante-apps-sdk" },
+  "hosting": "bundle",
+  "entryPoint": "index.html",
+  "icon": "icon.svg",
+  "permissions": ["user.read", "tenant.read", "notifications"]
+}

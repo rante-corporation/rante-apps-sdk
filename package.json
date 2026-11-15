@@ -1,0 +1,22 @@
+{
+  "name": "rante-apps-sdk",
+  "private": true,
+  "description": "SDK and command line for Rante apps: the @rante/sdk postMessage SDK and the @rante/cli packager.",
+  "license": "MIT",
+  "homepage": "https://github.com/rante-corporation/rante-apps-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rante-corporation/rante-apps-sdk.git"
+  },
+  "workspaces": [
+    "packages/sdk",
+    "packages/cli"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test packages/cli/test/crc32.test.js packages/cli/test/json.test.js packages/cli/test/paths.test.js packages/cli/test/manifest.test.js packages/cli/test/zip.test.js packages/cli/test/package.test.js packages/cli/test/cli.test.js packages/sdk/test/sdk.test.js test/repo.test.js",
+    "pack:example": "node packages/cli/bin/rante.js pack examples/hello-bundle --force"
+  }
+}

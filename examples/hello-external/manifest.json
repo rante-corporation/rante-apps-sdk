@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/rante-corporation/rante-apps-sdk/main/schema/manifest.schema.json",
+  "manifestVersion": 1,
+  "id": "3f2b8c1e-7d4a-4e9b-a6c5-1d2e3f4a5b6c",
+  "name": "Contoso CRM",
+  "version": "2.3.0",
+  "description": "An app on its own HTTPS server, opened inside Rante.",
+  "author": { "name": "Contoso Ltd", "url": "https://contoso.example" },
+  "hosting": "external",
+  "entryPoint": "https://crm.contoso.example/rante",
+  "icon": "https://crm.contoso.example/icon-128.png",
+  "permissions": ["user.read", "tenant.read", "auth.token"]
+}
