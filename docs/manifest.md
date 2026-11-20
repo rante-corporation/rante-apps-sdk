@@ -67,8 +67,9 @@ are an error as well.
 
 ## Permissions
 
-The tenant's admin sees these in plain words and approves them when installing the app. The Rante host refuses
-every request that needs a permission the tenant did not grant, whatever the app sends.
+The tenant's admin sees these in plain words when installing the app, together with where the app runs (Rante for a
+bundle app, your server's origin for an external app) and the origins in `connect`, and approves them all. The
+Rante host refuses every request that needs a permission the tenant did not grant, whatever the app sends.
 
 | Scope | What the app can do | SDK |
 |---|---|---|
@@ -80,8 +81,13 @@ every request that needs a permission the tenant did not grant, whatever the app
 | `navigation` | Open Rante pages, and external links in a new tab | `Rante.openUrl()` |
 | `clipboard.write` | Write to the clipboard (the frame gets `allow="clipboard-write"`) | `navigator.clipboard.writeText()` |
 
-Changing `permissions` in a new version means the new version is reviewed again, and installed tenants approve the
-new permissions before the version reaches their people.
+Rante reviews every new version. When a new version needs something an installed tenant has not approved (a
+permission, an origin in `connect`, a move between bundle and external hosting, or an external `entryPoint` on
+another host or port), that tenant gets the newest version within what its admin has approved, until the admin
+approves the change. Removing permissions or origins never needs approval, and neither does a new path or query
+for an external `entryPoint` that keeps its host and port, written the same way. Rante compares origins literally:
+`https://api.example.com:443` is new after `https://api.example.com`, and so is `https://api.example.com` after
+`https://*.example.com`.
 
 Rante Graph API permissions (reading users, groups and so on through `graph.rante.com`) are not part of the manifest.
 They belong to the app registration in the Portal (Developers > Apps > API permissions), where admins approve them

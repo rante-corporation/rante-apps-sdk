@@ -70,7 +70,8 @@ Cache-Control: public, max-age=31536000, immutable
 - Scripts load only from your package: no inline `<script>` blocks, no `eval`, no scripts from CDNs. Bundle every
   library into your build. (Create React App: `INLINE_RUNTIME_CHUNK=false`. Vite builds need no change.)
 - Your code can call only the origins in `connect`, and load images and media only from your package and those
-  origins. Reviewers see that list, and so do admins.
+  origins. Reviewers see that list, and the tenant's admin approves it when installing the app and whenever a new
+  version adds an origin the tenant has not approved (see [manifest.md](manifest.md#permissions)).
 - Other sites cannot frame your app; only Rante can.
 - Requests to the gallery carry no cookies that reach your code, and responses never set any.
 
